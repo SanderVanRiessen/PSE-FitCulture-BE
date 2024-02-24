@@ -67,10 +67,10 @@ To create a new repository for a different entity:
 
 2**Implement the Repository**: Create a new class that extends `AbstractEntityRepositoryJpa<T>`, providing the entity class as the generic parameter.
 
-    ```java
-    @Repository
+```java
+ @Repository
     public class MyEntityRepository extends AbstractEntityRepositoryJpa<MyEntity> {
-    }
-    ```
+  }
+   ```
 
 4. **Use the Repository**: Autowire the repository in your service class to perform CRUD operations.
