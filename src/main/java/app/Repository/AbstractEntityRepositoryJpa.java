@@ -1,8 +1,9 @@
-package Repository;
+package app.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.lang.reflect.ParameterizedType;
 
 public abstract class AbstractEntityRepositoryJpa<E extends Identifiable> implements EntityRepository<E> {
 
@@ -11,8 +12,9 @@ public abstract class AbstractEntityRepositoryJpa<E extends Identifiable> implem
 
     private Class<E> entityClass;
 
-    public AbstractEntityRepositoryJpa(Class<E> entityClass) {
-        this.entityClass = entityClass;
+    @SuppressWarnings("unchecked")
+    public AbstractEntityRepositoryJpa() {
+        this.entityClass = (Class<E>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
 
     @Override
