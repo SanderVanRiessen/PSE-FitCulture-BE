@@ -1,20 +1,21 @@
 package app.Controllers;
 
-import app.Models.User;
 import app.Repository.UserRepositoryJpa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import app.Models.User;
+import app.Services.UserService;
 
 import javax.transaction.Transactional;
 import java.net.URI;
 
 @RestController
 public class UserController {
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private UserRepositoryJpa userRepository;
@@ -25,13 +26,11 @@ public class UserController {
         return userRepository.findAll().toString();
     }
 
-    @Transactional
     @PostMapping("/users")
-    public ResponseEntity<User> addUser(@RequestBody User user) {
-        System.out.print("User: " + user);
-        User createdUser = userRepository.save(user);
+    public ResponseEntity<?> addUser(@RequestBody User user) {
+        User createdUser = userService.createUser(user.getName(), user.getEmail(), user.getHashedPassword(), user.getRole());
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("")
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(createdUser.getId()).toUri();
         return ResponseEntity.created(location).body(createdUser);
     }

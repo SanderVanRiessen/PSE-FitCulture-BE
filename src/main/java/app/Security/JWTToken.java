@@ -3,10 +3,13 @@ package app.Security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 import java.security.Key;
 import java.util.Date;
 
@@ -14,12 +17,16 @@ import java.util.Date;
 public class JWTToken {
 
     private final JWTProperties jwtProperties;
-    private final Key key;
+    private Key key;
 
     @Autowired
     public JWTToken(JWTProperties jwtProperties) {
         this.jwtProperties = jwtProperties;
-        this.key = Keys.hmacShaKeyFor(jwtProperties.getPassphrase().getBytes());
+    }
+
+    @PostConstruct
+    public void init() {
+        this.key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     }
 
     public Claims validateToken(String token) {
@@ -42,9 +49,9 @@ public class JWTToken {
 
         return Jwts.builder()
                 .setSubject(username)
-                .setIssuedAt(new Date())
+                .setIssuedAt(now)
                 .setExpiration(expiryDate)
-                .signWith(key)
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 }
