@@ -26,8 +26,8 @@ public class UserController {
         return userRepository.findAll().toString();
     }
 
-    @PostMapping("/users")
-    public ResponseEntity<?> addUser(@RequestBody User user) {
+    @PostMapping("/public/register")
+    public ResponseEntity<?> registerUser(@RequestBody User user) {
         User createdUser = userService.createUser(user.getName(), user.getEmail(), user.getHashedPassword(), user.getRole());
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
