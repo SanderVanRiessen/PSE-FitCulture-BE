@@ -13,7 +13,7 @@ public class Article implements Identifiable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String Title;
+    private String title;
     private String body;
 
     private String author;
@@ -24,7 +24,7 @@ public class Article implements Identifiable {
 
     public Article(Long id, String title, String body, String author, Date date) {
         this.id = id;
-        Title = title;
+        this.title = title;
         this.body = body;
         this.author = author;
         this.date = date;
@@ -37,11 +37,11 @@ public class Article implements Identifiable {
         this.id = id;
     }
     public String getTitle() {
-        return Title;
+        return this.title;
     }
 
     public void setTitle(String title) {
-        Title = title;
+        this.title = title;
     }
 
     public String getBody() {
