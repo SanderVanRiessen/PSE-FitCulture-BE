@@ -14,11 +14,15 @@ import java.net.URI;
 @RestController
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    private final UserRepositoryJpa userRepository;
 
     @Autowired
-    private UserRepositoryJpa userRepository;
+    public UserController(UserService userService, UserRepositoryJpa userRepository) {
+        this.userService = userService;
+        this.userRepository = userRepository;
+    }
 
     @Transactional
     @GetMapping("/users")
@@ -26,6 +30,7 @@ public class UserController {
         return userRepository.findAll().toString();
     }
 
+    @Transactional
     @PostMapping("/public/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         User createdUser = userService.createUser(user.getName(), user.getEmail(), user.getHashedPassword(), user.getRole());
