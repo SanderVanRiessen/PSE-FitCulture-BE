@@ -33,7 +33,7 @@ public class UserController {
     @Transactional
     @PostMapping("/public/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
-        User createdUser = userService.createUser(user.getName(), user.getEmail(), user.getHashedPassword(), user.getRole());
+        User createdUser = userService.createUser(user.getName(), user.getEmail(), user.getPassword(), user.getRole());
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(createdUser.getId()).toUri();
