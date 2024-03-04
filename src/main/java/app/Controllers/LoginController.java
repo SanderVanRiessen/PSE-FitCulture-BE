@@ -1,5 +1,6 @@
 package app.Controllers;
 
+import app.Dtos.LoginResponse;
 import app.Security.JWTToken;
 import app.Dtos.LoginRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,9 @@ public class LoginController {
 
         String jwt = jwtToken.generateToken(authentication);
 
-        return ResponseEntity.ok(jwt);
+        LoginResponse loginResponse = new LoginResponse(jwt);
+
+
+        return ResponseEntity.ok(loginResponse);
     }
 }
