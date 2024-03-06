@@ -15,17 +15,17 @@ public class User implements Identifiable {
     private String name;
     private String email;
     @Column(name = "hashed_password")
-    private String hashedPassword;
+    private String password;
     private String role;
 
     public User() {
     }
 
-    public User(Long id, String name, String email, String hashedPassword, String role) {
+    public User(Long id, String name, String email, String password, String role) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.hashedPassword = hashedPassword;
+        this.password = password;
         this.role = role;
     }
 
@@ -53,12 +53,12 @@ public class User implements Identifiable {
         this.email = email;
     }
 
-    public String getHashedPassword() {
-        return hashedPassword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setHashedPassword(String hashedPassword) {
-        this.hashedPassword = hashedPassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getRole() {
