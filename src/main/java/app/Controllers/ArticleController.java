@@ -20,7 +20,6 @@ public class ArticleController {
     @Autowired
     private ArticleRepositoryJpa articleRepository;
 
-    // Get single article
     @Transactional
     // Get single article
     @GetMapping("/article/{id}")
@@ -34,10 +33,10 @@ public class ArticleController {
         }
     }
 
+    //add new article to database
     @Transactional
     @PostMapping("/articles")
     public ResponseEntity<Article> addArticle(@RequestBody Article article) {
-        System.out.print("Article: " + article);
         Article createdArticle = articleRepository.save(article);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
@@ -45,7 +44,6 @@ public class ArticleController {
         return ResponseEntity.created(location).body(createdArticle);
     }
 
-    // get list of articles with only id, title, date and author
     @Transactional
     @GetMapping("/articlesHeadlines")
     public ResponseEntity<List<Map<String, Object>>> getArticlesHeadlines() {
