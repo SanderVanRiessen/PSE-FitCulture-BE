@@ -25,4 +25,12 @@ public class Article implements Identifiable {
 
     public Article() {
     }
+
+    public Article(Long id, String title, String body, String author, Date date) {
+        this.id = id;
+        this.title = title;
+        this.body = body;
+        this.author = author;
+        this.date = date;
+    }
 }

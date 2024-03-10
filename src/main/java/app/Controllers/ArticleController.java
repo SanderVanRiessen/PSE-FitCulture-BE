@@ -22,7 +22,7 @@ public class ArticleController {
 
     @Transactional
     // Get single article
-    @GetMapping("/article/{id}")
+    @GetMapping("/public/article/{id}")
     public ResponseEntity<Article> getArticle(@PathVariable Long id){
         Article article = articleRepository.findById(id);
         if (article != null) {
@@ -35,7 +35,7 @@ public class ArticleController {
 
     //add new article to database
     @Transactional
-    @PostMapping("/articles")
+    @PostMapping("/public/articles")
     public ResponseEntity<Article> addArticle(@RequestBody Article article) {
         Article createdArticle = articleRepository.save(article);
 
@@ -45,7 +45,7 @@ public class ArticleController {
     }
 
     @Transactional
-    @GetMapping("/articlesHeadlines")
+    @GetMapping("/public/articlesHeadlines")
     public ResponseEntity<List<Map<String, Object>>> getArticlesHeadlines() {
         List<Object[]> headlines = articleRepository.findArticleHeadlines();
         List<Map<String, Object>> response = headlines.stream().map(result -> {
