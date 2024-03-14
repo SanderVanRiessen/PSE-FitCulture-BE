@@ -1,4 +1,4 @@
-package app.Dtos;
+package app.dtos;
 
 public class LoginResponse {
     private String jwt;

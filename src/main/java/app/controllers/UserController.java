@@ -1,12 +1,12 @@
-package app.Controllers;
+package app.controllers;
 
-import app.Repository.UserRepositoryJpa;
+import app.repository.UserRepositoryJpa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import app.Models.User;
-import app.Services.UserService;
+import app.models.User;
+import app.services.UserService;
 
 import javax.transaction.Transactional;
 import java.net.URI;

@@ -1,7 +1,7 @@
-package app.Controllers;
+package app.controllers;
 
-import app.Models.Article;
-import app.Repository.ArticleRepositoryJpa;
+import app.models.Article;
+import app.repository.ArticleRepositoryJpa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

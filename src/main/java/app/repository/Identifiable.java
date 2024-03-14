@@ -1,4 +1,4 @@
-package app.Repository;
+package app.repository;
 
 public interface Identifiable {
     Long getId();
