@@ -1,4 +1,4 @@
-package app.Repository;
+package app.repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

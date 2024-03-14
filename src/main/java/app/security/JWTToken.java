@@ -1,4 +1,4 @@
-package app.Security;
+package app.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

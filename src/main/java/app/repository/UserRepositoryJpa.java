@@ -1,6 +1,6 @@
-package app.Repository;
+package app.repository;
 
-import app.Models.User;
+import app.models.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;

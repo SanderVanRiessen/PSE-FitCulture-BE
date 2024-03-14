@@ -1,7 +1,7 @@
-package app.Services;
+package app.services;
 
-import app.Models.User;
-import app.Repository.UserRepositoryJpa;
+import app.models.User;
+import app.repository.UserRepositoryJpa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

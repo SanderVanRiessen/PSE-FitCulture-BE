@@ -1,6 +1,6 @@
-package app.Repository;
+package app.repository;
 
-import app.Models.Article;
+import app.models.Article;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

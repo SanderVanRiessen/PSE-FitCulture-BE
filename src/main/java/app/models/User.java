@@ -1,6 +1,6 @@
-package app.Models;
+package app.models;
 
-import app.Repository.Identifiable;
+import app.repository.Identifiable;
 
 import javax.persistence.*;
 
