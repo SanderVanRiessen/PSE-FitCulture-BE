@@ -1,10 +1,10 @@
-package app.Services;
+package app.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import app.Models.User;
-import app.Repository.UserRepositoryJpa;
+import app.models.User;
+import app.repository.UserRepositoryJpa;
 
 @Service
 public class UserService {

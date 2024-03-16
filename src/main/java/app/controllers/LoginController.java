@@ -1,8 +1,8 @@
-package app.Controllers;
+package app.controllers;
 
-import app.Dtos.LoginResponse;
-import app.Security.JWTToken;
-import app.Dtos.LoginRequest;
+import app.dtos.LoginResponse;
+import app.security.JWTToken;
+import app.dtos.LoginRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
