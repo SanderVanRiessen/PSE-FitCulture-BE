@@ -1,24 +1,20 @@
 package app.services;
 
+import app.models.Role;
+import app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import app.models.User;
-import app.repository.UserRepositoryJpa;
 
 @Service
 public class UserService {
 
-    private final UserRepositoryJpa userRepository;
-    private final PasswordEncoder passwordEncoder;
+    UserRepository userRepository;
+    PasswordEncoder passwordEncoder;
 
-    @Autowired
-    public UserService(UserRepositoryJpa userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
-    public User createUser(String name, String email, String rawPassword, String role) {
+    public User createUser(String name, String email, String rawPassword, Role role) {
         User user = new User();
         user.setName(name);
         user.setEmail(email);
