@@ -7,8 +7,8 @@ import app.repository.RoleRepository;
 import app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import app.models.User;
@@ -16,7 +16,6 @@ import app.services.UserService;
 
 import javax.transaction.Transactional;
 import java.net.URI;
-import java.util.Optional;
 
 @RestController
 public class UserController {
@@ -51,9 +50,8 @@ public class UserController {
 
     @Transactional
     @PostMapping("/user/setauthor")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> makeUserAuthor(@RequestBody MakeUserAuthor userAuthor, Authentication auth) {
-        UserDetails userDetails = (UserDetails)  auth.getPrincipal();
-        System.out.print(userDetails);
         User user = userRepository.findById(userAuthor.getId()).orElseThrow(()-> new RuntimeException("Error: user not found"));
         Role authorRole = roleRepository.findByName(ERole.AUTHOR);
         user.setRole(authorRole);

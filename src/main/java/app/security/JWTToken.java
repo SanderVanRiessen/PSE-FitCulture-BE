@@ -1,5 +1,6 @@
 package app.security;
 
+import app.services.UserDetailsImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -43,12 +44,13 @@ public class JWTToken {
     }
 
     public String generateToken(Authentication authentication) {
-        String username = ((org.springframework.security.core.userdetails.User) authentication.getPrincipal()).getUsername();
+        UserDetailsImpl user = (UserDetailsImpl) authentication.getPrincipal();
+        String email = user.getEmail();
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtProperties.getExpiration());
 
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(email)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(key, SignatureAlgorithm.HS256)

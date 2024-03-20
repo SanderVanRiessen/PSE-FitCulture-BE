@@ -34,7 +34,7 @@ public class ArticleController {
     //add new article to database
     @Transactional
     @PostMapping("/articles")
-    @PreAuthorize("hasRole('AUTHOR')")
+    @PreAuthorize("hasAuthority('AUTHOR')")
     public ResponseEntity<Article> addArticle(@RequestBody Article article) {
         Article createdArticle = articleRepository.save(article);
 
