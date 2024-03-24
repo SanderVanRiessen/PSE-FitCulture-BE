@@ -16,6 +16,7 @@ import app.services.UserService;
 
 import javax.transaction.Transactional;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 public class UserController {
@@ -31,10 +32,10 @@ public class UserController {
         this.userService = userService;
     }
 
-    @Transactional
     @GetMapping("/users")
-    public String getUsers() {
-        return userRepository.findAll().toString();
+    public ResponseEntity<?> getUsers() {
+        List<User> users = userRepository.findAll();
+        return ResponseEntity.ok(users);
     }
 
     @Transactional
@@ -53,7 +54,7 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> makeUserAuthor(@RequestBody MakeUserAuthor userAuthor, Authentication auth) {
         User user = userRepository.findById(userAuthor.getId()).orElseThrow(()-> new RuntimeException("Error: user not found"));
-        Role authorRole = roleRepository.findByName(ERole.AUTHOR);
+        Role authorRole = roleRepository.findById(userAuthor.getRole()). orElseThrow(() -> new RuntimeException("Error: no role found"));
         user.setRole(authorRole);
         userRepository.save(user);
         return ResponseEntity.ok(user);

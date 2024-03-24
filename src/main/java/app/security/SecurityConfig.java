@@ -1,7 +1,6 @@
 package app.security;
 
 import app.services.CustomUserDetailsService;
-import app.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,8 +22,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
-        securedEnabled = true,
-        jsr250Enabled = true,
         prePostEnabled = true)
 public class SecurityConfig extends GlobalMethodSecurityConfiguration {
 
@@ -51,17 +48,16 @@ public class SecurityConfig extends GlobalMethodSecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http.cors().and().csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
                 .and().authorizeRequests().antMatchers("/public/**").permitAll()
                 .and().authorizeRequests().antMatchers("/login").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .anyRequest().authenticated();
 
+        http.authenticationProvider(authenticationProvider());
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        http.authenticationProvider(authenticationProvider());
         return http.build();
     }
 
