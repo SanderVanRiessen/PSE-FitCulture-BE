@@ -8,6 +8,7 @@ import java.util.Date;
 @Getter
 public class ArticleHeadline {
 
+    private Long id;
     private String title;
     private String author;
     private Date date;
