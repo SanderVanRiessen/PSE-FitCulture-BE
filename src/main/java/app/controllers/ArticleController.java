@@ -1,5 +1,7 @@
 package app.controllers;
 
+import app.dtos.article.ArticleHeadline;
+import app.dtos.article.MapperArticle;
 import app.models.Article;
 import app.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +14,18 @@ import javax.transaction.Transactional;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class ArticleController {
 
     ArticleRepository articleRepository;
+    MapperArticle mapper;
 
     @Autowired
-    public ArticleController(ArticleRepository articleRepository) {
+    public ArticleController(ArticleRepository articleRepository, MapperArticle mapper) {
         this.articleRepository = articleRepository;
+        this.mapper = mapper;
     }
     @Transactional
     // Get single article
@@ -45,8 +50,10 @@ public class ArticleController {
 
     @Transactional
     @GetMapping("/public/articlesHeadlines")
-    public ResponseEntity<?> getArticlesHeadlines() {
-        List<Article> headlines = articleRepository.findAll();
+    public ResponseEntity<List<ArticleHeadline>> getArticlesHeadlines() {
+        List<ArticleHeadline> headlines = articleRepository.findAll().stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
         return ResponseEntity.ok(headlines);
     }
 }
