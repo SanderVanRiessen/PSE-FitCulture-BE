@@ -42,8 +42,12 @@ lint-test-job:   # This job also runs in the test stage.
     - echo "No lint issues found."
 
 deploy-job:      # This job runs in the deploy stage.
-  environment: production 
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
   script:
-    - echo "Deploying application..."
-    - echo "Application successfully deployed."
+    - echo "Deploying application to Heroku..."
+    - gem install dpl
+    - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_PRODUCTION_KEY
+  environment:
+    name: production
+    url: https://fitculture-be-c1f01e23ce85.herokuapp.com/
+
