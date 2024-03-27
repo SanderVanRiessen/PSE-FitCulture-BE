@@ -13,6 +13,12 @@ public class UserService {
     UserRepository userRepository;
     PasswordEncoder passwordEncoder;
 
+    @Autowired
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
 
     public User createUser(String name, String email, String rawPassword, Role role) {
         User user = new User();

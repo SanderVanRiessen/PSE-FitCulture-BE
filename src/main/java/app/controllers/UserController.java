@@ -1,6 +1,7 @@
 package app.controllers;
 
 import app.dtos.user.payload.MakeUserAuthor;
+import app.dtos.user.payload.UserRegister;
 import app.models.ERole;
 import app.models.Role;
 import app.repository.RoleRepository;
@@ -40,8 +41,9 @@ public class UserController {
 
     @Transactional
     @PostMapping("/public/register")
-    public ResponseEntity<?> registerUser(@RequestBody User user) {
+    public ResponseEntity<?> registerUser(@RequestBody UserRegister user) {
         Role userRole = roleRepository.findByName(ERole.USER);
+        System.out.print(user);
         User createdUser = userService.createUser(user.getName(), user.getEmail(), user.getPassword(), userRole);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
