@@ -1,6 +1,5 @@
 package app.models;
 
-import app.repository.Identifiable;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +10,7 @@ import java.util.Date;
 @Setter
 @Entity
 @Table(name = "articles")
-public class Article implements Identifiable {
+public class Article {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
