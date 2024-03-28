@@ -19,12 +19,12 @@ unit-test-job:
   script:
     - mvn test
 
-lint-test-job:
-  stage: test
-  tags:
-    - hva
-  script:
-    - your-lint-command-here
+#lint-test-job:
+#  stage: test
+#  tags:
+#    - hva
+#  script:
+#    - your-lint-command-here
 
 deploy-job:
   stage: deploy
