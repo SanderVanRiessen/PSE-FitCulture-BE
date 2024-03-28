@@ -25,7 +25,7 @@ build-job:       # This job runs in the build stage, which runs first.
   stage: build
   script:
     - echo "Compiling the code..."
-    - mvn package -Dmaven.test.skip=true
+    - mvn -B package -Dmaven.test.skip=true
     - echo "Compile complete."
 
 unit-test-job:   # This job runs in the test stage.
@@ -48,7 +48,6 @@ deploy-job:      # This job runs in the deploy stage.
     - echo "Deploying application to Heroku..."
     - gem install dpl
     - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_PRODUCTION_KEY
-  environment:
-    name: production
-    url: https://fitculture-be-c1f01e23ce85.herokuapp.com/
+  only:
+    - master    # This job only runs for the master branch
 
