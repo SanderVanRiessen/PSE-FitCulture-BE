@@ -1,5 +1,14 @@
 image: maven:3.6.3-jdk-11
 
+variables:
+  MAVEN_CLI_OPTS: "--batch-mode" # removed the settings.xml reference
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
+cache:
+  paths:
+    - .m2/repository
+    - target/
+
 stages:
   - build
   - test
@@ -10,28 +19,30 @@ build-job:
   tags:
     - hva
   script:
-    - mvn package -Dmaven.test.skip=true
+    - mvn $MAVEN_CLI_OPTS clean package -Dmaven.test.skip=true
 
 unit-test-job:
   stage: test
   tags:
     - hva
   script:
-    - mvn test
-
-#lint-test-job:
-#  stage: test
-#  tags:
-#    - hva
-#  script:
-#    - your-lint-command-here
+    - mvn $MAVEN_CLI_OPTS test
 
 deploy-job:
   stage: deploy
+  image: ruby:2.7
   tags:
     - hva
   script:
-    - gem install dpl
-    - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_PRODUCTION_KEY
+    - apt-get update -qq && apt-get install -y curl git
+    - curl https://cli-assets.heroku.com/install.sh | sh
+    - export HEROKU_API_KEY="$HEROKU_PRODUCTION_KEY"
+    - git config --global user.email "you@example.com"
+    - git config --global user.name "GitLab CI/CD"
+    - git remote add heroku https://git.heroku.com/fitculture-be.git || true
+    - git fetch --unshallow || true
+    - git push heroku HEAD:refs/heads/main --force
   only:
     - master
+
+
