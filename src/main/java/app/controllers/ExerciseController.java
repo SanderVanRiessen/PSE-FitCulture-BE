@@ -1,5 +1,6 @@
 package app.controllers;
 
+import app.dtos.MessageResponse;
 import app.dtos.exercise.payload.AddExercise;
 import app.dtos.exercise.response.GetExercise;
 import app.dtos.exercise.response.MapperExercise;
@@ -56,5 +57,24 @@ public class ExerciseController {
         Exercise createdExercise = exerciseRepository.save(newExercise);
         GetExercise serializedExercise = mapperExercise.toPlainExercise(createdExercise);
         return ResponseEntity.ok(serializedExercise);
+    }
+
+    @Transactional
+    @PutMapping("/exercise/{id}")
+    public ResponseEntity<?> updateExercise(@RequestBody AddExercise exercise, @PathVariable Long id){
+        Exercise newExercise = exerciseRepository.getById(id);
+        newExercise.setDescription(exercise.getDescription());
+        newExercise.setName(exercise.getName());
+        Exercise createdExercise = exerciseRepository.saveAndFlush(newExercise);
+        GetExercise serializedExercise = mapperExercise.toPlainExercise(createdExercise);
+        return ResponseEntity.ok(serializedExercise);
+    }
+
+    @Transactional
+    @DeleteMapping("/exercise/{id}")
+    public ResponseEntity<?> updateExercise(@PathVariable Long id){
+        Exercise newExercise = exerciseRepository.getById(id);
+        exerciseRepository.delete(newExercise);
+        return ResponseEntity.ok(new MessageResponse("Successfully deleted exercise"));
     }
 }
