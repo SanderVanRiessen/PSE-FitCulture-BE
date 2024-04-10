@@ -8,5 +8,5 @@ import lombok.Setter;
 public class AddExercise {
     private String name;
     private String description;
-    private long exercisePlanId;
+    private Long exercisePlanId;
 }
