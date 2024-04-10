@@ -8,6 +8,7 @@ import app.models.ExercisePlan;
 import app.repository.ExercisePlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -46,6 +47,7 @@ public class ExercisePlanController {
 
     @Transactional
     @PostMapping("/exerciseplan")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> addExercisePlan(@RequestBody AddExercisePlan exercisePlan) {
         ExercisePlan newExercisePlan = new ExercisePlan();
         newExercisePlan.setName(exercisePlan.getName());

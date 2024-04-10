@@ -10,6 +10,7 @@ import app.repository.ExercisePlanRepository;
 import app.repository.ExerciseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -48,6 +49,7 @@ public class ExerciseController {
 
     @Transactional
     @PostMapping("/exercise")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> addExercise(@RequestBody AddExercise exercise){
         ExercisePlan exercisePlan = exercisePlanRepository.findById(exercise.getExercisePlanId()).orElseThrow(() -> new RuntimeException("Error: exercise plan not found"));
         Exercise newExercise = new Exercise();
@@ -61,6 +63,7 @@ public class ExerciseController {
 
     @Transactional
     @PutMapping("/exercise/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> updateExercise(@RequestBody AddExercise exercise, @PathVariable Long id){
         Exercise newExercise = exerciseRepository.getById(id);
         newExercise.setDescription(exercise.getDescription());
@@ -72,6 +75,7 @@ public class ExerciseController {
 
     @Transactional
     @DeleteMapping("/exercise/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> updateExercise(@PathVariable Long id){
         Exercise newExercise = exerciseRepository.getById(id);
         exerciseRepository.delete(newExercise);

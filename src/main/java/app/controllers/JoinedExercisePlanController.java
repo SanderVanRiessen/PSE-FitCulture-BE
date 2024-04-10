@@ -15,13 +15,11 @@ import app.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
@@ -62,6 +60,19 @@ public class JoinedExercisePlanController {
         User currentUser = userRepository.getById(userDetails.getId());
         List<JoinedExercisePlan> exercisePlans = joinedExercisePlanRepository.getAllByUserId(currentUser.getId());
         List<GetJoinedExercisePlan> serializedExercisePlans = exercisePlans.stream().map(mapper::getJoinedExercisePlan).collect(Collectors.toList());
+        return ResponseEntity.ok(serializedExercisePlans);
+    }
+
+    @Transactional
+    @GetMapping("/yourexerciseplans/{id}")
+    public ResponseEntity<?> yourExercisePlans(Authentication auth, @PathVariable Long id) {
+        UserDetailsImpl userDetails = (UserDetailsImpl) auth.getPrincipal();
+        User currentUser = userRepository.getById(userDetails.getId());
+        JoinedExercisePlan exercisePlans = joinedExercisePlanRepository.getById(id);
+        if (!Objects.equals(currentUser.getId(), exercisePlans.getUser().getId())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("You are not the user of this exercise"));
+        }
+        GetJoinedExercisePlan serializedExercisePlans = mapper.getJoinedExercisePlan(exercisePlans);
         return ResponseEntity.ok(serializedExercisePlans);
     }
 }
