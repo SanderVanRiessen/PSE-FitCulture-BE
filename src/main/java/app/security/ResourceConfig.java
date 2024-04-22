@@ -11,7 +11,6 @@ public class ResourceConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedMethods("POST", "PUT", "GET", "DELETE")
                 .allowedOriginPatterns("http://localhost:*")
-                .allowedOrigins("http://localhost:3000", "http://localhost:8080", "https://fe-app-production-343a.up.railway.app");
+                .allowedOrigins("http://localhost:3000", "http://localhost:8080", "https://fitculture.tech", "https://www.fitculture.tech", "https://fitculture-fe-694aa31362b7.herokuapp.com");
     }
-
 }
