@@ -41,13 +41,10 @@ deploy-job:
     - git config --global user.name "GitLab CI/CD"
     - git remote remove heroku || true
     - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git
-    - echo "Git remotes:"
     - git remote -v
-    - echo "Fetching changes..."
     - git fetch --unshallow || echo "Repository already fully cloned, skipping unshallow"
-    - echo "Pushing to Heroku..."
     - git push heroku HEAD:refs/heads/main --force
-#  only:
-#    - master
+  only:
+    - master
 
 
