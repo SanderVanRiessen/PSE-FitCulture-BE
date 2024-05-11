@@ -67,4 +67,14 @@ public class MapperForum {
                 post.getTopic().getId()
         );
     }
+    public TopicDetailDTO mapToTopicDetailDTO(Topic topic) {
+        return new TopicDetailDTO(
+                topic.getId(),
+                topic.getTitle(),
+                topic.getText(),
+                topic.getUser().getName(),
+                topic.getCreatedAt(),
+                topic.getPosts().size()
+        );
+    }
 }

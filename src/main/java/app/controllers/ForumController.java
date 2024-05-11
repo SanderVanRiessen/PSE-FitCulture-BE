@@ -2,6 +2,7 @@ package app.controllers;
 
 import app.dtos.MessageResponse;
 import app.dtos.forum.CreateTopicDTO;
+import app.dtos.forum.TopicDetailDTO;
 import app.dtos.forum.*;
 import app.models.forum.Post;
 import app.models.forum.Topic;
@@ -54,6 +55,14 @@ public class ForumController {
         return ResponseEntity.ok(topics);
     }
 
+    @GetMapping("/public/forum/{topicId}")
+    public ResponseEntity<TopicDetailDTO> getTopicById(@PathVariable Long topicId) {
+        TopicDetailDTO topicDetail = topicService.findTopicById(topicId);
+        if (topicDetail == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(topicDetail);
+    }
 
     @GetMapping("/public/forum/{topicId}/posts")
     public ResponseEntity<List<PostDTO>> getPostsByTopicId(@PathVariable Long topicId) {

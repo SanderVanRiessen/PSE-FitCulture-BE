@@ -2,6 +2,7 @@ package app.services.forum;
 import app.dtos.forum.CreateTopicDTO;
 import app.dtos.forum.MapperForum;
 import app.dtos.forum.TopicDTO;
+import app.dtos.forum.TopicDetailDTO;
 import app.models.User;
 import app.models.forum.Category;
 import app.models.forum.Topic;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,6 +39,18 @@ public class TopicService {
         return topicRepository.findByCategoryId(categoryId).stream()
                 .map(mapperForum::convertToDTO)
                 .collect(Collectors.toList());
+    }
+
+
+    public TopicDetailDTO findTopicById(Long topicId) {
+        Optional<Topic> topicOptional = topicRepository.findById(topicId);
+
+        if (!topicOptional.isPresent()) {
+            return null;
+        }
+
+        Topic topic = topicOptional.get();
+        return mapperForum.mapToTopicDetailDTO(topic);
     }
 
     public Topic createTopic(CreateTopicDTO dto) {
