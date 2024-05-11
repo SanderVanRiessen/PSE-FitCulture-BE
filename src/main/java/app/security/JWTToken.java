@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.security.Key;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -50,14 +51,14 @@ public class JWTToken {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtProperties.getExpiration());
 
-        // Convert user roles to a comma-separated string
-        String roles = user.getAuthorities().stream()
+        // Get roles as a list
+        List<String> roles = user.getAuthorities().stream()
                 .map(authority -> authority.getAuthority())
-                .collect(Collectors.joining(","));
+                .collect(Collectors.toList());
 
         return Jwts.builder()
                 .setSubject(email)
-                .claim("roles", roles) // Add roles to the JWT Claims
+                .claim("roles", roles) // Store roles as a list in JWT
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(key, SignatureAlgorithm.HS256)
