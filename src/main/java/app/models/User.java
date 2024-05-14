@@ -20,7 +20,7 @@ public class User {
     @Column(name = "hashed_password")
     private String password;
     @ManyToOne
-    @JoinColumn(name = "role")
+    @JoinColumn(name = "role_id")
     private Role role;
 
     public User() {
