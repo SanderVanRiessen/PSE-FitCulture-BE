@@ -39,6 +39,12 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
+    @GetMapping("/public/user")
+    public ResponseEntity<?> getUser(@RequestParam(required = false) String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Error: user not found with email: " + email));
+        return ResponseEntity.ok(user);
+    }
+
     @Transactional
     @PostMapping("/public/register")
     public ResponseEntity<?> registerUser(@RequestBody UserRegister user) {
