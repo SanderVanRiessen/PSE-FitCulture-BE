@@ -29,7 +29,7 @@ unit-test-job:
     - mvn $MAVEN_CLI_OPTS test
 
 sonar-cube-job:
-  image: maven:3.6.3-jdk-17
+  image: maven:3.9.7-jdk-17
   stage: test
   tags:
     - hva
