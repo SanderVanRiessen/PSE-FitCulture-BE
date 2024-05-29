@@ -27,6 +27,11 @@ unit-test-job:
     - hva
   script:
     - mvn $MAVEN_CLI_OPTS test -Dspring.profiles.active=test
+  artifacts:
+    paths:
+      - target/site/jacoco/jacoco.xml
+    reports:
+      junit: target/site/jacoco/jacoco.xml
 
 deploy-job:
   stage: deploy
