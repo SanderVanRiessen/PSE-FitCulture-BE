@@ -23,7 +23,7 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "myUserId")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "myUserId")
     private List<Friend> friends;
 
     public User() {

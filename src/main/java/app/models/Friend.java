@@ -23,4 +23,8 @@ public class Friend {
 
     @Enumerated(EnumType.STRING)
     private FriendRequestStatus status;
+
+    public boolean equalsToOtherUser(User givenUser) {
+        return givenUser.getId().equals(this.otherUserId.getId());
+    }
 }
