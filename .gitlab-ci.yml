@@ -29,9 +29,9 @@ unit-test-job:
     - mvn $MAVEN_CLI_OPTS test -Dspring.profiles.active=test
   artifacts:
     paths:
-      - target/site/jacoco/jacoco.xml
+      - ./target/site/jacoco/jacoco.xml
     reports:
-      junit: target/site/jacoco/jacoco.xml
+      junit: ./target/site/jacoco/jacoco.xml
 
 deploy-job:
   stage: deploy
