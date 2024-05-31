@@ -28,6 +28,18 @@ unit-test-job:
   script:
     - mvn $MAVEN_CLI_OPTS test -Dspring.profiles.active=test
 
+docker-build:
+  image: docker:25.0.3
+  stage: docker-build
+  tags:
+    - hva
+  script:
+    - docker login gitlab.fdmci.hva.nl:5050 -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+    - docker build -t gitlab.fdmci.hva.nl:5050/project-se-dt/2324/team5/pse-fitculture-be .
+    - docker push gitlab.fdmci.hva.nl:5050/project-se-dt/2324/team5/pse-fitculture-be
+  only:
+    - master
+
 deploy-job:
   stage: deploy
   image: ruby:2.7
@@ -46,5 +58,3 @@ deploy-job:
     - git push heroku HEAD:refs/heads/main --force
   only:
     - master
-
-
