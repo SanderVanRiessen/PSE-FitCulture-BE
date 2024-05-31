@@ -28,6 +28,14 @@ unit-test-job:
   script:
     - mvn $MAVEN_CLI_OPTS test
 
+sonar-cube-job:
+  image: maven:3.8.3-openjdk-17
+  stage: test
+  tags:
+    - hva
+  script:
+    - mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.login=$SONAR_TOKEN
+
 deploy-job:
   stage: deploy
   image: ruby:2.7
