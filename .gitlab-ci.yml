@@ -1,7 +1,7 @@
 image: maven:3.6.3-jdk-11
 
 variables:
-  MAVEN_CLI_OPTS: "--batch-mode" # removed the settings.xml reference
+  MAVEN_CLI_OPTS: "--batch-mode"
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 
 cache:
@@ -11,7 +11,8 @@ cache:
 
 stages:
   - build
-  - test
+  - quality
+  - docker-build
   - deploy
 
 build-job:
@@ -22,11 +23,31 @@ build-job:
     - mvn $MAVEN_CLI_OPTS clean package -Dmaven.test.skip=true
 
 unit-test-job:
-  stage: test
+  stage: quality
   tags:
     - hva
   script:
-    - mvn $MAVEN_CLI_OPTS test
+    - mvn $MAVEN_CLI_OPTS test -Dspring.profiles.active=test
+
+sonar-cube-job:
+  image: maven:3.8.3-openjdk-17
+  stage: quality
+  tags:
+    - hva
+  script:
+    - mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dspring.profiles.active=test -Dsonar.login=$SONAR_TOKEN
+
+docker-build:
+  image: docker:25.0.3
+  stage: docker-build
+  tags:
+    - hva
+  script:
+    - docker login gitlab.fdmci.hva.nl:5050 -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+    - docker build -t gitlab.fdmci.hva.nl:5050/project-se-dt/2324/team5/pse-fitculture-be .
+    - docker push gitlab.fdmci.hva.nl:5050/project-se-dt/2324/team5/pse-fitculture-be
+  only:
+    - master
 
 deploy-job:
   stage: deploy
@@ -46,5 +67,3 @@ deploy-job:
     - git push heroku HEAD:refs/heads/main --force
   only:
     - master
-
-
