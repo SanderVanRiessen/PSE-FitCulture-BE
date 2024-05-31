@@ -12,6 +12,7 @@ cache:
 stages:
   - build
   - test
+  - docker-build
   - deploy
 
 build-job:
