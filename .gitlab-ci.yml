@@ -41,6 +41,14 @@ docker-build:
   only:
     - master
 
+sonar-cube-job:
+  image: maven:3.8.3-openjdk-17
+  stage: test
+  tags:
+    - hva
+  script:
+    - mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dspring.profiles.active=test -Dmaven.test.skip=true -Dsonar.login=$SONAR_TOKEN
+
 deploy-job:
   stage: deploy
   image: ruby:2.7
