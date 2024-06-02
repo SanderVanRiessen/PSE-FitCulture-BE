@@ -90,7 +90,8 @@ public class ArticleControllerTest {
         // Test fetching the headlines
         mockMvc.perform(get("/public/articlesHeadlines").contentType("application/json"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].title", is("First Article")))
-                .andExpect(jsonPath("$[1].title", is("Second Article")));
+                .andExpect(jsonPath("$[?(@.title == 'First Article')]").exists())
+                .andExpect(jsonPath("$[?(@.title == 'Second Article')]").exists())
+                .andExpect(jsonPath("$[?(@.body)]").doesNotExist());
     }
 }
