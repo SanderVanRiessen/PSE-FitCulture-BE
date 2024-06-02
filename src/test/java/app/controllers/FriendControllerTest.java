@@ -99,8 +99,13 @@ public class FriendControllerTest {
     @Test
     @WithUserDetails("admin@admin.nl")
     void currentFriends() throws Exception {
+        JSONObject json = new JSONObject();
+        json.put("email", "newuser@pse.nl");
+        mockMvc.perform(post("/friendinvite").contentType("application/json").content(json.toJSONString()));
+        Friend friend = friendRepository.findByOtherUserId_Email("newuser@pse.nl");
         mockMvc.perform(get("/currentfriends").contentType("application/json"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name", is("Admin")));
+                .andExpect(jsonPath("$.name", is("Admin")))
+                .andExpect(jsonPath("$.friends[0].name", is("newUser")));
     }
 }
