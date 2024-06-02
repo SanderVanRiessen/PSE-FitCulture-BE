@@ -25,6 +25,8 @@ public class UserControllerTest {
 
     @Test
     void searchUserByEmail() throws Exception {
-        mockMvc.perform(get("/public/user?email=admin@admin.nl").contentType("application/json")).andExpect(status().isOk()).andExpect(jsonPath("$.name", is("Admin")));
+        mockMvc.perform(get("/public/user?email=admin@admin.nl").contentType("application/json"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is("Admin")));
     }
 }
