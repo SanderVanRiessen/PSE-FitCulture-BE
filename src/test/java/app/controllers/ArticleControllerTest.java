@@ -37,11 +37,10 @@ public class ArticleControllerTest {
 
     @Test
     void getSingleArticle() throws Exception {
-        // Create a new article
+
         Article article = new Article(null, "Sample Article", "This is a sample article.", "Author", new Date());
         article = articleRepository.save(article);
 
-        // Test fetching the article
         mockMvc.perform(get("/public/article/" + article.getId()).contentType("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title", is("Sample Article")))
