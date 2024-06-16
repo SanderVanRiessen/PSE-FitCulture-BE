@@ -50,7 +50,9 @@ public class FriendControllerTest {
     void sendFriendRequest() throws Exception {
         JSONObject json = new JSONObject();
         json.put("email", "second@pse.nl");
-        mockMvc.perform(post("/friendinvite").contentType("application/json").content(json.toJSONString())).andExpect(status().isOk());
+        mockMvc.perform(post("/friendinvite").contentType("application/json").content(json.toJSONString()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message", is("friend request is sent")));
     }
 
     @Test
@@ -59,7 +61,9 @@ public class FriendControllerTest {
         JSONObject json = new JSONObject();
         json.put("email", "newuser@pse.nl");
         mockMvc.perform(post("/friendinvite").contentType("application/json").content(json.toJSONString()));
-        mockMvc.perform(post("/friendinvite").contentType("application/json").content(json.toJSONString())).andExpect(status().is4xxClientError()).andExpect(jsonPath("$.message", is("request already sent")));
+        mockMvc.perform(post("/friendinvite").contentType("application/json").content(json.toJSONString()))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.message", is("request already sent")));
     }
 
     @Test
@@ -72,7 +76,9 @@ public class FriendControllerTest {
         JSONObject json = new JSONObject();
         json.put("friendId", friend.getOtherUserId().getId());
         json.put("status", "ACCEPTED");
-        mockMvc.perform(put("/friendinvite").contentType("application/json").content(json.toJSONString())).andExpect(status().isOk()).andExpect(jsonPath("$.message", is("friend request status is changed to ACCEPTED")));
+        mockMvc.perform(put("/friendinvite").contentType("application/json").content(json.toJSONString()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message", is("friend request status is changed to ACCEPTED")));
     }
 
     @Test
@@ -85,12 +91,21 @@ public class FriendControllerTest {
         JSONObject json = new JSONObject();
         json.put("friendId", friend.getOtherUserId().getId());
         json.put("status", "DECLINED");
-        mockMvc.perform(put("/friendinvite").contentType("application/json").content(json.toJSONString())).andExpect(status().isOk()).andExpect(jsonPath("$.message", is("friend request status is changed to DECLINED")));
+        mockMvc.perform(put("/friendinvite").contentType("application/json").content(json.toJSONString()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message", is("friend request status is changed to DECLINED")));
     }
 
     @Test
     @WithUserDetails("admin@admin.nl")
     void currentFriends() throws Exception {
-        mockMvc.perform(get("/currentfriends").contentType("application/json")).andExpect(status().isOk());
+        JSONObject json = new JSONObject();
+        json.put("email", "newuser@pse.nl");
+        mockMvc.perform(post("/friendinvite").contentType("application/json").content(json.toJSONString()));
+        Friend friend = friendRepository.findByOtherUserId_Email("newuser@pse.nl");
+        mockMvc.perform(get("/currentfriends").contentType("application/json"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is("Admin")))
+                .andExpect(jsonPath("$.friends[0].name", is("newUser")));
     }
 }
