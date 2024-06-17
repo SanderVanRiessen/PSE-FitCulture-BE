@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -24,6 +25,7 @@ public class Challenge {
     @JoinColumn(name = "exercise_plan_id")
     private ExercisePlan exercisePlan;
 
+    @Getter
     @ManyToMany
     @JoinTable(
             name = "challenge_participants",
@@ -37,6 +39,10 @@ public class Challenge {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    public Challenge() {
+        this.participants = new ArrayList<User>();
+    }
 
     public void addParticipant(User user) {
         this.participants.add(user);
@@ -53,4 +59,5 @@ public class Challenge {
     public boolean isCompleted() {
         return status == Status.DONE;
     }
+
 }

@@ -84,10 +84,14 @@ public class ChallengeServiceTest {
         request.setUsername("john");
 
         User user = new User(1L, "John Doe", "john@example.com", "password", new Role(ERole.USER));
+
+        ExercisePlan exercisePlan = new ExercisePlan();
+        exercisePlan.setId(1L);
         Challenge challenge = new Challenge();
         challenge.setId(1L);
+        challenge.setExercisePlan(exercisePlan);
         challenge.setName("Challenge 1");
-        challenge.setParticipants(Arrays.asList());
+        challenge.setStatus(Status.TODO);
 
         when(challengeRepository.findById(1L)).thenReturn(Optional.of(challenge));
         when(userRepository.findByUsername("john")).thenReturn(Optional.of(user));
@@ -105,10 +109,16 @@ public class ChallengeServiceTest {
     public void testCompleteChallenge() {
         CompleteChallengeRequestDTO request = new CompleteChallengeRequestDTO();
         request.setChallengeId(1L);
-
+        ExercisePlan exercisePlan = new ExercisePlan();
+        exercisePlan.setId(1L);
+        User user1 = new User(1L, "John Doe", "", "", new Role(ERole.USER));
+        User user2 = new User(2L, "Jane Smith", "", "", new Role(ERole.USER));
         Challenge challenge = new Challenge();
         challenge.setId(1L);
         challenge.setName("Challenge 1");
+        challenge.addParticipant(user1);
+        challenge.addParticipant(user2);
+        challenge.setExercisePlan(exercisePlan);
         challenge.setStatus(Status.TODO);
 
         when(challengeRepository.findById(1L)).thenReturn(Optional.of(challenge));
@@ -124,13 +134,26 @@ public class ChallengeServiceTest {
 
     @Test
     public void testGetAllChallenges() {
+        User user1 = new User(1L, "John Doe", "", "", new Role(ERole.USER));
+        User user2 = new User(2L, "Jane Smith", "", "", new Role(ERole.USER));
+        ExercisePlan exercisePlan = new ExercisePlan();
+        exercisePlan.setId(1L);
         Challenge challenge1 = new Challenge();
         challenge1.setId(1L);
+        challenge1.setStatus(Status.TODO);
+        challenge1.setExercisePlan(exercisePlan);
+        challenge1.addParticipant(user1);
         challenge1.setName("Challenge 1");
 
         Challenge challenge2 = new Challenge();
         challenge2.setId(2L);
+        challenge2.setExercisePlan(exercisePlan);
+        challenge2.addParticipant(user2);
+        challenge2.setStatus(Status.INPROGRESS);
         challenge2.setName("Challenge 2");
+
+        challengeRepository.save(challenge1);
+        challengeRepository.save(challenge2);
 
         when(challengeRepository.findAll()).thenReturn(Arrays.asList(challenge1, challenge2));
 
@@ -144,10 +167,17 @@ public class ChallengeServiceTest {
 
     @Test
     public void testGetChallengeById() {
+        User user = new User(1L, "John Doe", "", "", new Role(ERole.USER));
+        ExercisePlan exercisePlan = new ExercisePlan();
+        exercisePlan.setId(1L);
         Challenge challenge = new Challenge();
         challenge.setId(1L);
+        challenge.setExercisePlan(exercisePlan);
+        challenge.addParticipant(user);
         challenge.setName("Challenge 1");
+        challenge.setStatus(Status.TODO);
 
+        challengeRepository.save(challenge);
         when(challengeRepository.findById(1L)).thenReturn(Optional.of(challenge));
 
         ChallengeResponseDTO response = challengeService.getChallengeById(1L);

@@ -44,7 +44,7 @@ public class ChallengeService {
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        challenge.getParticipants().add(user);
+        challenge.addParticipant(user);
         challengeRepository.save(challenge);
         return ChallengeMapper.toDTO(challenge);
     }
