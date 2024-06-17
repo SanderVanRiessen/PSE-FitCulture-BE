@@ -8,6 +8,7 @@ import app.models.ExercisePlan;
 import app.models.Status;
 import app.models.User;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,7 +37,10 @@ public class ChallengeMapper {
         challenge.setName(dto.getName());
         challenge.setDescription(dto.getDescription());
         challenge.setExercisePlan(exercisePlan);
-        challenge.setParticipants(List.of(challenger, challengedUser));
+        List<User> participants = new ArrayList<>();
+        participants.add(challenger);
+        participants.add(challengedUser);
+        challenge.setParticipants(participants);
         challenge.setStartDate(dto.getStartDate());
         challenge.setEndDate(dto.getEndDate());
         challenge.setStatus(Status.TODO);
