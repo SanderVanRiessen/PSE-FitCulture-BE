@@ -27,6 +27,7 @@ public class SeedAuthor {
             boolean foundUser = userRepository.existsByEmail("author@author.nl");
             Role authorRole = roleRepository.findById(3L).orElseThrow(() -> new RuntimeException("no roles"));
 
+            //Default author account
             if (!foundUser){
                 User adminUser = new User();
                 adminUser.setEmail("author@author.nl");
