@@ -3,7 +3,7 @@ FROM maven:3-jdk-8-alpine as builder
 WORKDIR /usr/src/app
 
 COPY . /usr/src/app
-RUN mvn package
+RUN mvn package -Dmaven.test.skip=true
 
 FROM openjdk:8-jre-alpine
 

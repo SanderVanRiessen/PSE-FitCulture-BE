@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  backend-fitculture:
+    image: "backend:latest"
+    build:
+      context: .
+    container_name: backend-fitculture
+    environment:
+      CLEARDB_DATABASE_URL: jdbc:mysql://db:3306/fitculture-db
+      CLEARDB_DATABASE_USERNAME: user
+      CLEARDB_DATABASE_PASSWORD: user-password
+      MAX_CONNECTION_SIZE: 10
+      SPRING_PROFILES_ACTIVE: prod
+    depends_on:
+      - db
+    ports:
+      - '8080:8080'
+
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'fitculture-db'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'user-password'
+      MYSQL_ROOT_PASSWORD: 'root-password'
+    ports:
+      - '3306:3306'
