@@ -26,9 +26,9 @@ public class ChallengeService {
     private ExercisePlanRepository exercisePlanRepository;
 
     public ChallengeResponseDTO createChallenge(CreateChallengeRequestDTO request) {
-        User challenger = userRepository.findByUsername(request.getChallengerUsername())
+        User challenger = userRepository.findByName(request.getChallengerUsername())
                 .orElseThrow(() -> new RuntimeException("Challenger not found"));
-        User challengedUser = userRepository.findByUsername(request.getChallengerUsername()) // Assume same for simplicity
+        User challengedUser = userRepository.findByName(request.getChallengerUsername()) // Assume same for simplicity
                 .orElseThrow(() -> new RuntimeException("Challenged user not found"));
         ExercisePlan exercisePlan = exercisePlanRepository.findById(request.getExercisePlanId())
                 .orElseThrow(() -> new RuntimeException("Exercise plan not found"));
@@ -41,7 +41,7 @@ public class ChallengeService {
     public ChallengeResponseDTO acceptChallenge(AcceptChallengeRequestDTO request) {
         Challenge challenge = challengeRepository.findById(request.getChallengeId())
                 .orElseThrow(() -> new RuntimeException("Challenge not found"));
-        User user = userRepository.findByUsername(request.getUsername())
+        User user = userRepository.findByName(request.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         challenge.addParticipant(user);

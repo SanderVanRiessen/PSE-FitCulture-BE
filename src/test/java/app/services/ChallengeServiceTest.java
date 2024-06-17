@@ -1,7 +1,5 @@
 package app.services;
 
-import app.dtos.*;
-import app.dtos.challenge.mappers.ChallengeMapper;
 import app.dtos.challenge.payload.AcceptChallengeRequestDTO;
 import app.dtos.challenge.payload.CompleteChallengeRequestDTO;
 import app.dtos.challenge.payload.CreateChallengeRequestDTO;
@@ -59,8 +57,8 @@ public class ChallengeServiceTest {
         exercisePlan.setId(1L);
         exercisePlan.setName("Plan 1");
 
-        when(userRepository.findByUsername("john")).thenReturn(Optional.of(challenger));
-        when(userRepository.findByUsername("jane")).thenReturn(Optional.of(challengedUser)); // Adjust if necessary
+        when(userRepository.findByName("john")).thenReturn(Optional.of(challenger));
+        when(userRepository.findByName("jane")).thenReturn(Optional.of(challengedUser)); // Adjust if necessary
         when(exercisePlanRepository.findById(1L)).thenReturn(Optional.of(exercisePlan));
         when(challengeRepository.save(any(Challenge.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
@@ -94,7 +92,7 @@ public class ChallengeServiceTest {
         challenge.setStatus(Status.TODO);
 
         when(challengeRepository.findById(1L)).thenReturn(Optional.of(challenge));
-        when(userRepository.findByUsername("john")).thenReturn(Optional.of(user));
+        when(userRepository.findByName("john")).thenReturn(Optional.of(user));
         when(challengeRepository.save(any(Challenge.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         ChallengeResponseDTO response = challengeService.acceptChallenge(request);
